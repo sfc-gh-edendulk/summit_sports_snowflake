@@ -10,6 +10,11 @@ ALTER SESSION SET query_tag = '{"origin":"sf_sit-is","name":"ss_zts","version":{
 -- create ss_101 database
 CREATE  DATABASE IF NOT EXISTS ss_101;
 
+-- create raw pos schema
+CREATE OR REPLACE SCHEMA ss_101.raw_pos;
+
+-- create raw pos schema
+CREATE OR REPLACE SCHEMA ss_101.raw_customer;
 
 -- create harmonized schema
 CREATE OR REPLACE SCHEMA ss_101.harmonized;
@@ -61,11 +66,11 @@ GRANT CREATE WAREHOUSE ON ACCOUNT TO ROLE ss_admin;
 
 USE ROLE securityadmin;
 
-GRANT ALL ON DATABASE ss_101 TO ROLE ss_admin;
+GRANT USAGE ON DATABASE ss_101 TO ROLE ss_admin;
 GRANT USAGE ON DATABASE ss_101 TO ROLE ss_data_engineer;
 GRANT USAGE ON DATABASE ss_101 TO ROLE ss_dev;
 
-GRANT ALL ON ALL SCHEMAS IN DATABASE ss_101 TO ROLE ss_admin;
+GRANT USAGE ON ALL SCHEMAS IN DATABASE ss_101 TO ROLE ss_admin;
 GRANT USAGE ON ALL SCHEMAS IN DATABASE ss_101 TO ROLE ss_data_engineer;
 GRANT USAGE ON ALL SCHEMAS IN DATABASE ss_101 TO ROLE ss_dev;
 
@@ -76,10 +81,6 @@ GRANT ALL ON SCHEMA ss_101.harmonized TO ROLE ss_dev;
 GRANT ALL ON SCHEMA ss_101.analytics TO ROLE ss_admin;
 GRANT ALL ON SCHEMA ss_101.analytics TO ROLE ss_data_engineer;
 GRANT ALL ON SCHEMA ss_101.analytics TO ROLE ss_dev;
-
-GRANT IMPORTED PRIVILEGES ON DATABASE ss_raw TO ROLE ss_admin;
-GRANT IMPORTED PRIVILEGES ON DATABASE ss_raw TO ROLE ss_data_engineer;
-GRANT IMPORTED PRIVILEGES ON DATABASE ss_raw TO ROLE ss_dev;
 
 -- warehouse grants
 GRANT OWNERSHIP ON WAREHOUSE ss_de_wh TO ROLE ss_admin COPY CURRENT GRANTS;
@@ -101,4 +102,5 @@ GRANT ALL ON FUTURE VIEWS IN SCHEMA ss_101.analytics TO ROLE ss_data_engineer;
 GRANT ALL ON FUTURE VIEWS IN SCHEMA ss_101.analytics TO ROLE ss_dev;
 
 
-
+-- setup completion note
+SELECT 'ss_101 setup is now complete' AS note;
