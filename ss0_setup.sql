@@ -43,7 +43,7 @@ COMMENT = 'developer warehouse for summit sports';
 USE ROLE securityadmin;
 
 -- functional roles
-CREATE ROLE IF NOT EXISTS ss_admin
+CREATE ROLE IF NOT EXISTS ss_admin;
     COMMENT = 'admin for summit sports';
     
 CREATE ROLE IF NOT EXISTS ss_data_engineer
