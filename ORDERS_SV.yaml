@@ -1,0 +1,246 @@
+name: ORDERS_SV
+tables:
+  - name: ORDERS_DT
+    base_table:
+      database: SS_101
+      schema: HARMONIZED
+      table: ORDERS_DT
+    dimensions:
+      - name: BRAND
+        synonyms:
+          - maker
+          - manufacturer
+          - label
+          - trademark
+          - nameplate
+          - logo
+          - marque
+        description: The brand of the product ordered.
+        expr: BRAND
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Salomon
+          - Wilson
+          - Adidas
+      - name: CUSTOMER_ID
+        synonyms:
+          - client_id
+          - customer_number
+          - patron_id
+          - buyer_id
+          - account_holder_id
+          - user_id
+        description: Unique identifier for the customer who placed the order.
+        expr: CUSTOMER_ID
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - 0e7fa805-11c7-4322-9f4b-5010a387822a
+          - af5bfbea-b819-4e13-9b4e-5159dcced4a0
+          - ad0d3c45-d2cb-43d8-80ee-f36f5c86a8ae
+      - name: FIRST_NAME
+        synonyms:
+          - given_name
+          - forename
+          - personal_name
+          - christian_name
+          - name
+        description: The first name of the customer who placed the order.
+        expr: FIRST_NAME
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Sylvie
+          - Isabelle
+          - Célina
+      - name: LAST_NAME
+        synonyms:
+          - surname
+          - family_name
+          - last_name_field
+          - full_last_name
+          - person_last_name
+          - customer_last_name
+        description: The customer's last name.
+        expr: LAST_NAME
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Collin
+          - Marie
+          - Le Roux
+      - name: ORDER_ID
+        synonyms:
+          - order_number
+          - purchase_id
+          - transaction_id
+          - sale_id
+          - invoice_number
+          - order_reference
+        description: Unique identifier for each order.
+        expr: ORDER_ID
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - 91e06318-2dad-4c21-ac63-192aa92bbc22
+          - 79defd26-e884-4976-8528-15249a3339d1
+          - cb378e87-84b4-4997-9840-c8f93bc9dfe6
+      - name: PRODUCT_CATEGORY
+        synonyms:
+          - product_type
+          - product_group
+          - category_name
+          - product_classification
+          - item_category
+          - product_segment
+        description: The category of product being ordered, such as clothing or equipment, which helps in analyzing sales trends and customer preferences across different product types.
+        expr: PRODUCT_CATEGORY
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Ski Socks
+          - Gloves
+          - Kids' Soccer Shirts
+      - name: PRODUCT_ID
+        synonyms:
+          - product_code
+          - item_id
+          - product_number
+          - article_number
+          - sku
+          - product_key
+        description: Unique identifier for the product ordered.
+        expr: PRODUCT_ID
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - WOM-6935
+          - MEN-1674
+          - KID-6621
+      - name: PRODUCT_NAME
+        synonyms:
+          - item_name
+          - product_title
+          - item_description
+          - product_label
+          - article_name
+          - merchandise_name
+          - goods_name
+          - commodity_name
+        description: The name of the product ordered.
+        expr: PRODUCT_NAME
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Trek 100 Polyester Backpacking Liner Gloves
+          - The North Face Trek 500, Waterproof Hiking Jacket, Men's
+          - Women's Seamless Ski Base Layer Bottom - BL 580 I-Soft - Black/Purple
+      - name: STOREID
+        synonyms:
+          - store_number
+          - store_code
+          - outlet_id
+          - location_id
+          - shop_id
+          - branch_id
+          - retail_store_id
+          - store_identifier
+        description: Unique identifier for the store where the order was placed.
+        expr: STOREID
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - P38100G
+          - M73300F
+          - M73210M
+      - name: STORE_NAME
+        synonyms:
+          - store_title
+          - shop_name
+          - retail_name
+          - outlet_name
+          - location_name
+          - store_identity
+          - shop_identity
+          - retail_identity
+        description: The name of the store where the order was placed. The name of the store is 'SUMMITSPORT' followed by the name of the city. The name of the city can contain '-'.
+        expr: STORE_NAME
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - SUMMITSPORT Rennes Chantepie
+          - SUMMITSPORT Montpellier Odysseum
+          - SUMMITSPORT Grenoble Grand'Place
+          - SUMMITSPORT Chamonix-Mont-Blanc
+      - name: STORE_TYPE
+        synonyms:
+          - store_category
+          - outlet_type
+          - retail_format
+          - store_format
+          - store_classification
+          - shop_type
+        description: The type of store where the order was placed, either a mountain store (Montagne) or a plain store (Plaine).
+        expr: STORE_TYPE
+        data_type: VARCHAR(16777216)
+        sample_values:
+          - Montagne
+          - Plaine
+    facts:
+      - name: QUANTITY
+        synonyms:
+          - amount
+          - count
+          - number
+          - volume
+          - total
+          - units
+          - items
+          - stock
+          - inventory
+          - supply
+        description: The quantity of items ordered in a single transaction.
+        expr: QUANTITY
+        data_type: NUMBER(38,0)
+        sample_values:
+          - '1'
+          - '5'
+          - '2'
+      - name: SALES_PRICE_EURO
+        synonyms:
+          - euro_sales_price
+          - sales_price_eur
+          - price_in_euros
+          - euro_revenue
+          - european_sales_value
+        description: The sales price of an order in Euros.
+        expr: SALES_PRICE_EURO
+        data_type: FLOAT
+        sample_values:
+          - '299.96'
+          - '29.95'
+          - '19.99'
+    time_dimensions:
+      - name: SALE_DATE
+        synonyms:
+          - sale_timestamp
+          - transaction_date
+          - purchase_date
+          - order_date
+          - date_of_sale
+          - sales_timestamp
+          - transaction_timestamp
+        description: The date on which the sale was made.
+        expr: SALE_DATE
+        data_type: DATE
+        sample_values:
+          - '2025-01-23'
+          - '2025-02-23'
+          - '2024-03-12'
+verified_queries:
+  - name: Chiffre d'affaire Chamonix 2024
+    question: |+
+      Quel est le chiffre d'affaire du magasin à Chamonix en 2024?
+
+    use_as_onboarding_question: false
+    sql: SELECT store_name, SUM(sales_price_euro) AS chiffre_affaire_2024 FROM orders_dt WHERE store_name LIKE '%Chamonix%' AND DATE_PART('year', sale_date) = 2024 GROUP BY store_name ORDER BY chiffre_affaire_2024 DESC NULLS LAST
+    verified_by: IMRIZIGA
+    verified_at: 1751531488
+  - name: Magasin le plus performant
+    question: Quel est le magasin le plus performant en 2024?
+    use_as_onboarding_question: false
+    sql: SELECT store_name, SUM(sales_price_euro) AS chiffre_affaire_2024 FROM orders_dt WHERE DATE_PART('year', sale_date) = 2024 GROUP BY store_name ORDER BY chiffre_affaire_2024 DESC NULLS LAST
+    verified_by: IMRIZIGA
+    verified_at: 1751531540
+custom_instructions: Réponds à mes questions en français
