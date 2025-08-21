@@ -136,7 +136,7 @@ with tab1:
             COALESCE(AVG(SALES_PRICE_EURO), 0) as avg_order_value,
             COALESCE(SUM(QUANTITY), 0) as total_quantity,
             COUNT(DISTINCT CUSTOMER_ID) as unique_customers
-        FROM ss_101.harmonized.orders_dt
+        FROM ss_101.analytics.orders_v
         WHERE SALE_DATE BETWEEN '{start_date_str}' AND '{end_date_str}'
         """
         
@@ -155,7 +155,7 @@ with tab1:
                 COUNT(*) as total_orders,
                 COALESCE(SUM(SALES_PRICE_EURO), 0) as total_revenue,
                 COALESCE(AVG(SALES_PRICE_EURO), 0) as avg_order_value
-            FROM ss_101.harmonized.orders_dt
+            FROM ss_101.analytics.orders_v
             WHERE SALE_DATE BETWEEN '{prev_start.strftime('%Y-%m-%d')}' AND '{prev_end.strftime('%Y-%m-%d')}'
             """
             
@@ -211,7 +211,7 @@ with tab1:
                 COUNT(*) as NB_ORDERS,
                 COALESCE(SUM(SALES_PRICE_EURO), 0) as REVENUE,
                 COALESCE(AVG(SALES_PRICE_EURO), 0) as AVG_ORDER_VALUE
-            FROM ss_101.harmonized.orders_dt
+            FROM ss_101.analytics.orders_v
             WHERE SALE_DATE BETWEEN '{start_date_str}' AND '{end_date_str}'
             GROUP BY SALE_DATE
             ORDER BY SALE_DATE
@@ -290,7 +290,7 @@ with tab2:
                 COALESCE(SUM(SALES_PRICE_EURO), 0) as TOTAL_REVENUE,
                 COUNT(*) as NB_ORDERS,
                 COALESCE(AVG(SALES_PRICE_EURO), 0) as AVG_PRICE
-            FROM ss_101.harmonized.orders_dt
+            FROM ss_101.analytics.orders_v
             WHERE SALE_DATE BETWEEN '{start_date_str}' AND '{end_date_str}'
                 AND PRODUCT_NAME IS NOT NULL
             GROUP BY PRODUCT_NAME, BRAND, PRODUCT_CATEGORY
@@ -357,7 +357,7 @@ with tab3:
                 COALESCE(SUM(SALES_PRICE_EURO), 0) as REVENUE,
                 COUNT(DISTINCT CUSTOMER_ID) as UNIQUE_CUSTOMERS,
                 COALESCE(AVG(SALES_PRICE_EURO), 0) as AVG_ORDER_VALUE
-            FROM ss_101.harmonized.orders_dt
+            FROM ss_101.analytics.orders_v
             WHERE SALE_DATE BETWEEN '{start_date_str}' AND '{end_date_str}'
                 AND STORE_NAME IS NOT NULL
             GROUP BY STORE_NAME, STORE_TYPE, POSTCODE
@@ -424,11 +424,11 @@ with tab4:
     with st.expander("💡 Exemples de requêtes"):
         st.code("""
 -- Données de base
-SELECT * FROM ss_101.harmonized.orders_dt LIMIT 100;
+SELECT * FROM ss_101.analytics.orders_v LIMIT 100;
 
 -- Top 10 produits
 SELECT PRODUCT_NAME, SUM(SALES_PRICE_EURO) as revenue
-FROM ss_101.harmonized.orders_dt
+FROM ss_101.analytics.orders_v
 WHERE SALE_DATE >= CURRENT_DATE() - 30
 GROUP BY PRODUCT_NAME
 ORDER BY revenue DESC
@@ -438,7 +438,7 @@ LIMIT 10;
 SELECT 
     DATE_TRUNC('month', SALE_DATE) as month,
     SUM(SALES_PRICE_EURO) as revenue
-FROM ss_101.harmonized.orders_dt
+FROM ss_101.analytics.orders_v
 GROUP BY month
 ORDER BY month;
         """)
@@ -446,7 +446,7 @@ ORDER BY month;
     custom_query = st.text_area(
         "Entrez votre requête SQL",
         height=150,
-        placeholder="SELECT * FROM ss_101.harmonized.orders_dt LIMIT 100"
+        placeholder="SELECT * FROM ss_101.analytics.orders_v LIMIT 100"
     )
     
     col1, col2 = st.columns([1, 4])
